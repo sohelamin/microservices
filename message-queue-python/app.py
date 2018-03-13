@@ -21,21 +21,22 @@ def home():
 @app.route('/emails', methods=['POST'])
 def emails():
     # send to the queue
-    process_emails.delay(request.json['emails'])
+    for email in request.json['emails']:
+        process_email.delay(email)
+
     return jsonify({'message': 'Queued'})
 
 @celery.task
-def process_emails(emails):
+def process_email(email):
     with app.app_context():
         # send the email
-        for email in emails:
-            msg = Message(
-                email['subject'],
-                sender=app.config['MAIL_USERNAME'],
-                recipients=[email['recipient']]
-            )
-            msg.body = email['message']
-            mail.send(msg)
+        msg = Message(
+            email['subject'],
+            sender=app.config['MAIL_USERNAME'],
+            recipients=[email['recipient']]
+        )
+        msg.body = email['message']
+        mail.send(msg)
     return 'Sent'
 
 if __name__ == "__main__":
