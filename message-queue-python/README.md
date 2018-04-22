@@ -22,7 +22,6 @@ You can deploy the service using docker
 docker-compose up -d
 ```
 
-
 ### Usage
 Make a POST request to execute any queues
 ```
