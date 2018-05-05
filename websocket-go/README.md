@@ -20,22 +20,42 @@ docker-compose up -d
 ### Usage
 Put the codes into your frontend app
 ```js
+// Client 1
 // Connecting to websocket server
-var mySocket = new WebSocket("ws://localhost:8080/ws");
-
-// Sending message
-mySocket.onopen = function (event) {
-  var msg = {
-    email: "sohelamincse@gmail.com",
-    message: "Hello"
-  };
-
-  mySocket.send(JSON.stringify(msg));
-};
-
+var email = "sohelamincse@gmail.com";
+var mySocket = new WebSocket("ws://localhost:8080/ws?email=" + email);
 // Recieving message
 mySocket.onmessage = function (event) {
   console.log(event.data);
 }
-'
+
+// Client 2
+// Connecting to websocket server
+var email = "sohel@sohelamin.com";
+var mySocket = new WebSocket("ws://localhost:8080/ws?email=" + email);
+// Recieving message
+mySocket.onmessage = function (event) {
+  console.log(event.data);
+}
+
+// Sending message to client 2
+var msg = {
+  message: "Say hi to client 2",
+  recipient: "sohel@sohelamin.com"
+};
+
+mySocket.send(JSON.stringify(msg));
+
+// Sending message to client 1
+var msg = {
+  message: "Say hi to client 1",
+  recipient: "sohelamincse@gmail.com"
+};
+
+mySocket.send(JSON.stringify(msg));
+```
+
+Broadcast a message to all clients/subscribers
+```
+Hit http://localhost:8080/broadcast
 ```

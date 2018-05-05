@@ -9,13 +9,17 @@ import (
 )
 
 type Message struct {
-	Email     string `json:"email"`
 	Message   string `json:"message"`
 	Recipient string `json:"recipient"`
 }
 
-var subscribers = make(map[*websocket.Conn]bool)
-var broadcast = make(chan Message)
+type Subscriber struct {
+	Email  string
+	Socket *websocket.Conn
+}
+
+var subscribers = make([]Subscriber, 0)
+var messageChannel = make(chan Message)
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
@@ -31,7 +35,10 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 
 	defer ws.Close()
 
-	subscribers[ws] = true
+	email := r.FormValue("email")
+	subscriber := Subscriber{Email: email, Socket: ws}
+	subscribers = append(subscribers, subscriber)
+	fmt.Println(subscribers)
 
 	for {
 		var msg Message
@@ -39,27 +46,48 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		err := ws.ReadJSON(&msg)
 		if err != nil {
 			log.Printf("error: %v", err)
-			delete(subscribers, ws)
+			// Delete the last subscriber just appended
+			subscribers = subscribers[:len(subscribers)-1]
 			break
 		}
 
-		broadcast <- msg
+		messageChannel <- msg
 	}
 }
 
 func handleMessages() {
 	for {
-		msg := <-broadcast
+		msg := <-messageChannel
 
-		for subscriber := range subscribers {
-			err := subscriber.WriteJSON(msg)
-			if err != nil {
-				log.Printf("error: %v", err)
-				subscriber.Close()
-				delete(subscribers, subscriber)
+		for subscriberIndex, subscriber := range subscribers {
+			// Send only to the recipient
+			if subscriber.Email == msg.Recipient {
+				err := subscriber.Socket.WriteJSON(msg)
+				if err != nil {
+					log.Printf("error: %v", err)
+					subscriber.Socket.Close()
+					// Delete the subscriber
+					subscribers = append(subscribers[:subscriberIndex], subscribers[subscriberIndex+1:]...)
+				}
 			}
 		}
 	}
+}
+
+func handleBroadcast(w http.ResponseWriter, r *http.Request) {
+	msg := "Announcement for all"
+
+	for subscriberIndex, subscriber := range subscribers {
+		err := subscriber.Socket.WriteJSON(msg)
+		if err != nil {
+			log.Printf("error: %v", err)
+			subscriber.Socket.Close()
+			// Delete the subscriber
+			subscribers = append(subscribers[:subscriberIndex], subscribers[subscriberIndex+1:]...)
+		}
+	}
+
+	fmt.Fprintf(w, "Broadcasted")
 }
 
 func main() {
@@ -68,6 +96,7 @@ func main() {
 	})
 
 	http.HandleFunc("/ws", handleConnections)
+	http.HandleFunc("/broadcast", handleBroadcast)
 
 	go handleMessages()
 
