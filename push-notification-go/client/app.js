@@ -34,7 +34,7 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
       fetch('http://localhost:8080/subscribe', {
         method: 'post',
         mode: 'cors',
-        body: JSON.stringify({ subscription: subscription }),
+        body: JSON.stringify(subscription),
         headers:{
           'Content-Type': 'application/json'
         }

@@ -20,7 +20,7 @@ type Notification struct {
 	Url   string `json:"url"`
 }
 
-var subscriptions = make([]*webpush.Subscription, 0)
+var subscriptions = make([]webpush.Subscription, 0)
 
 func subscribe(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -31,7 +31,7 @@ func subscribe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var subscription *webpush.Subscription
+	var subscription webpush.Subscription
 	jsonErr := json.NewDecoder(r.Body).Decode(&subscription)
 	if jsonErr != nil {
 		log.Fatal(jsonErr)
@@ -51,7 +51,7 @@ func sendNotification(w http.ResponseWriter, r *http.Request) {
 
 	// Send Notification
 	for _, subscription := range subscriptions {
-		_, sendErr := webpush.SendNotification([]byte(string(data)), subscription, &webpush.Options{
+		_, sendErr := webpush.SendNotification([]byte(string(data)), &subscription, &webpush.Options{
 			Subscriber:      "mailto:<sohelamincse@gmail.com>",
 			VAPIDPrivateKey: vapidPrivateKey,
 		})
