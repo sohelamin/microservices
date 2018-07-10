@@ -25,7 +25,7 @@ docker-compose up -d
 ### Usage
 Make a POST request to execute any queues
 ```
-curl -XPOST 'http://localhost:5000/emails/' -H 'Content-Type: application/json' -d '
+curl -XPOST 'http://localhost:8080/emails/' -H 'Content-Type: application/json' -d '
 {
     "emails": [
         {

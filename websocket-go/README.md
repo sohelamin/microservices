@@ -23,7 +23,7 @@ Put the codes into your frontend app
 // Client 1
 // Connecting to websocket server
 var email = "sohelamincse@gmail.com";
-var mySocket = new WebSocket("ws://localhost:8080/ws?email=" + email);
+var mySocket = new WebSocket("ws://localhost:8081/ws?email=" + email);
 // Recieving message
 mySocket.onmessage = function (event) {
   console.log(event.data);
@@ -32,7 +32,7 @@ mySocket.onmessage = function (event) {
 // Client 2
 // Connecting to websocket server
 var email = "sohel@sohelamin.com";
-var mySocket = new WebSocket("ws://localhost:8080/ws?email=" + email);
+var mySocket = new WebSocket("ws://localhost:8081/ws?email=" + email);
 // Recieving message
 mySocket.onmessage = function (event) {
   console.log(event.data);
@@ -57,5 +57,5 @@ mySocket.send(JSON.stringify(msg));
 
 Broadcast a message to all clients/subscribers
 ```
-Hit http://localhost:8080/broadcast
+Hit http://localhost:8081/broadcast
 ```

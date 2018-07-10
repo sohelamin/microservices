@@ -100,6 +100,6 @@ func main() {
 
 	go handleMessages()
 
-	log.Println("http server started on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Println("http server started on :8081")
+	log.Fatal(http.ListenAndServe(":8081", nil))
 }

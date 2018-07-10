@@ -6,7 +6,7 @@ services:
      - CELERY_BROKER_URL=redis://redis:6379/0
      - CELERY_RESULT_BACKEND=redis://redis:6379/0
     ports:
-      - "5000:5000"
+      - "8080:8080"
     networks:
       - appnet
   celery:

@@ -3,7 +3,7 @@ import os
 # App
 DEBUG = False
 HOST = '0.0.0.0'
-PORT = 5000
+PORT = 8080
 
 # Celery
 CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL') or 'redis://localhost:6379/0'

@@ -31,7 +31,7 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
     }).then((subscription) => {
       console.log('The Subscription is successful', JSON.stringify(subscription));
 
-      fetch('http://localhost:8080/subscribe', {
+      fetch('http://localhost:8082/subscribe', {
         method: 'post',
         mode: 'cors',
         body: JSON.stringify(subscription),

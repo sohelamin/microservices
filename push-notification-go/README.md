@@ -34,7 +34,7 @@ docker-compose up -d
 3. Send notification to the subscribed users
     Simple notification
     ```bash
-    curl -XPOST -H 'Content-Type: application/json' http://localhost:8080/send -d '
+    curl -XPOST -H 'Content-Type: application/json' http://localhost:8082/send -d '
     {
         "title": "Push Notification",
         "body": "Hey Dude!",

@@ -71,6 +71,6 @@ func main() {
 	http.HandleFunc("/subscribe", subscribe)
 	http.HandleFunc("/send", sendNotification)
 
-	log.Println("http server started on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Println("http server started on :8082")
+	log.Fatal(http.ListenAndServe(":8082", nil))
 }
