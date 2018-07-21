@@ -21,9 +21,10 @@ const generate = async (req, res) => {
 };
 
 const fire = async (req, res) => {
-  webhookId = req.params.id;
+  const webhookId = req.params.id;
+  const inputs = req.body;
 
-  const sandbox = { fetch, callback };
+  const sandbox = { fetch, callback, inputs };
   vm.createContext(sandbox);
 
   try {
