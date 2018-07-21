@@ -71,6 +71,6 @@ func main() {
 	http.HandleFunc("/subscribe", subscribe)
 	http.HandleFunc("/send", sendNotification)
 
-	log.Println("http server started on :8082")
+	log.Println("Listening on port 8082!")
 	log.Fatal(http.ListenAndServe(":8082", nil))
 }

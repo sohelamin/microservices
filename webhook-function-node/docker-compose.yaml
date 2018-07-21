@@ -1,0 +1,14 @@
+version: '3'
+services:
+  app:
+    build: .
+    ports:
+      - "8083:8083"
+    networks:
+      - appnet
+volumes:
+  data:
+    driver: "local"
+networks:
+  appnet:
+    driver: "bridge"
