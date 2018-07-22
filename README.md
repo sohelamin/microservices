@@ -3,6 +3,17 @@
 # Microservices
 > A collection of some random microservices made with different stacks.
 
+|Service                |Language|Port|
+|-----------------------|--------|----|
+|`message-queue-python` |Python  |8080|
+|`websocket-go`         |Golang  |8081|
+|`push-notification-go` |Golang  |8082|
+|`webhook-function-node`|Node.js |8083|
+
+### Todo
+- More microservices :heavy_plus_sign:
+- Implement API Gateway :twisted_rightwards_arrows:
+
 ## Author
 [Sohel Amin](http://sohelamin.com)
 

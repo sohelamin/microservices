@@ -14,6 +14,9 @@
 ### Docker
 You can deploy the service using docker
 ```
+docker build -t websocket-go .
+docker run -p 8081:8081 websocket-go
+# or
 docker-compose up -d
 ```
 

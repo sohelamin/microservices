@@ -19,6 +19,9 @@
 ### Docker
 You can deploy the service using docker
 ```
+docker build -t push-notification-go .
+docker run -p 8082:8082 push-notification-go
+# or
 docker-compose up -d
 ```
 

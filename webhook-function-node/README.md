@@ -14,6 +14,9 @@
 ### Docker
 You can deploy the service using docker
 ```
+docker build -t webhook-function-node .
+docker run -p 8083:8083 webhook-function-node
+# or
 docker-compose up -d
 ```
 
@@ -30,7 +33,7 @@ docker-compose up -d
 
 2. Make a POST request to your generated webhook url
     ```bash
-    curl -XPOST -H 'Content-Type: application/json' http://localhost:8083/webhook/d5a3c6b0-8d15-11e8-9120-6901f73a0696 -d '
+    curl -XPOST -H 'Content-Type: application/json' http://localhost:8083/webhook/<WEBHOOK_ID> -d '
     {
         "name": "Sohel Amin"
     }
